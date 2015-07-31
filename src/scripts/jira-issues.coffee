@@ -7,9 +7,8 @@
 #   None
 #
 # Configuration:
-#   HUBOT_JIRA_API_URL (format: "https://jira-domain.com:9090")
 #   HUBOT_JIRA_URL (format: "https://jira-domain.com:9090") (for displaying links)
-#   HUBOT_JIRA_API_URL (optional)
+#   HUBOT_JIRA_API_URL (format: "https://jira-domain.com:9090") (optional)
 #   HUBOT_JIRA_IGNORECASE (optional; default is "true")
 #   HUBOT_JIRA_USERNAME (optional)
 #   HUBOT_JIRA_PASSWORD (optional)
