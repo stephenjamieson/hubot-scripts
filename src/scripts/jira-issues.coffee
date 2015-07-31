@@ -27,11 +27,12 @@ module.exports = (robot) ->
   jiraUrl = process.env.HUBOT_JIRA_URL || "https://#{process.env.HUBOT_JIRA_DOMAIN}"
   jiraUsername = process.env.HUBOT_JIRA_USERNAME
   jiraPassword = process.env.HUBOT_JIRA_PASSWORD
+  jiraApiUrl = process.env.HUBOT_JIRA_API_URL
  
-  if process.env.HUBOT_JIRA_API_URL == undefined
-    jiraApiUrl = jiraUrl
+  if jiraApiUrl != undefined && jiraApiUrl.length > 0
+    jiraApiUrl = process.env.HUBOT_JIRA_API_URL
   else
-    jiraApiUrl = process.env.HUBOT_API_URL
+    jiraApiUrl = jiraUrl
 
   if jiraUsername != undefined && jiraUsername.length > 0
     auth = "#{jiraUsername}:#{jiraPassword}"
