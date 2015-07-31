@@ -7,7 +7,9 @@
 #   None
 #
 # Configuration:
-#   HUBOT_JIRA_URL (format: "https://jira-domain.com:9090")
+#   HUBOT_JIRA_API_URL (format: "https://jira-domain.com:9090")
+#   HUBOT_JIRA_URL (format: "https://jira-domain.com:9090") (for displaying links)
+#   HUBOT_JIRA_API_URL (optional)
 #   HUBOT_JIRA_IGNORECASE (optional; default is "true")
 #   HUBOT_JIRA_USERNAME (optional)
 #   HUBOT_JIRA_PASSWORD (optional)
@@ -26,7 +28,12 @@ module.exports = (robot) ->
   jiraUrl = process.env.HUBOT_JIRA_URL || "https://#{process.env.HUBOT_JIRA_DOMAIN}"
   jiraUsername = process.env.HUBOT_JIRA_USERNAME
   jiraPassword = process.env.HUBOT_JIRA_PASSWORD
-  
+ 
+  if process.env.HUBOT_JIRA_API_URL == undefined
+    jiraApiUrl = jiraUrl
+  else
+    jiraApiUrl = process.env.HUBOT_API_URL
+
   if jiraUsername != undefined && jiraUsername.length > 0
     auth = "#{jiraUsername}:#{jiraPassword}"
 
@@ -34,7 +41,7 @@ module.exports = (robot) ->
   if jiraIgnoreUsers == undefined
     jiraIgnoreUsers = "jira|github"
 
-  robot.http(jiraUrl + "/rest/api/2/project")
+  robot.http(jiraApiUrl + "/rest/api/2/project")
     .auth(auth)
     .get() (err, res, body) ->
       json = JSON.parse(body)
@@ -57,7 +64,7 @@ module.exports = (robot) ->
           msg.send item.message for item in cache when item.issue is issue
 
           if cache.length == 0 or (item for item in cache when item.issue is issue).length == 0
-            robot.http(jiraUrl + "/rest/api/2/issue/" + issue)
+            robot.http(jiraApiUrl + "/rest/api/2/issue/" + issue)
               .auth(auth)
               .get() (err, res, body) ->
                 try
